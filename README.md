@@ -90,7 +90,7 @@ bundler 설치 : `sudo gem install bundler`
 passenger 설치 : `sudo gem install passenger`  
 
 ## 아파치 연동 모듈 설치
-`sudo apt-get install libcurl4-openssl-dev libssl-dev zlib1g-dev libapr1-dev libaprutil1-dev apache2-dev`  
+`sudo apt-get install -y libcurl4-openssl-dev libssl-dev zlib1g-dev libapr1-dev libaprutil1-dev apache2-dev`  
 `sudo passenger-install-apache2-module`  
 (계속 엔터 누르다가 LoadModule passenger_module… 이 나오면 해당 내용 메모장에 복붙 후 터미널 새로 켜서 아래 <b>아파치 설정 변경</b>작업 시작)
 
