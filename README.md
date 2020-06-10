@@ -21,7 +21,7 @@
   sudo vi /etc/mysql/debian.cnf 
   user = root 아래 password = 에 패스워드 넣기(client 및 mysql_upgrade 두개 다)
   ```
-### mariaDB 데이터 저장 경로 변경하기(옵션)
+### [옵션] mariaDB 데이터 저장 경로 변경하기
 * rsync 설치(우분투에 경우 왠만하면 있음) : `sudo apt-get install -y rsync`
 * 데이터 디렉터리 위치 확인 : 
 ```
