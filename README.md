@@ -56,7 +56,7 @@ $ mysql -u root -p
 `sudo apt-get install -y apt-transport-https gnupg build-essential ruby-dev pkg-config zlib1g-dev libmagickwand-dev`  
 `sudo apt-get install -y redmine redmine-mysql`  
 
-### ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO).
+### [에러 대처] ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO).
 해당 오류 나올 시에 직접 데이터베이스 및 디비 계정 생성
 * 데이터베이스 생성 
 ```
