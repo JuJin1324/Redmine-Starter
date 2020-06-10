@@ -178,3 +178,4 @@ mysqldump --user=$DB_USER --password=$DB_PASSWD $db | gzip > "$DB_BACKUP/mysqldu
 * 우분투에 레드마인 설치 : [링크](https://techexpert.tips/ko/%EB%A0%88%EB%93%9C-%EB%A7%88%EC%9D%B8/%EB%A0%88%EB%93%9C-%EB%A7%88%EC%9D%B8-%EC%9A%B0%EB%B6%84%ED%88%AC-%EB%A6%AC%EB%88%85%EC%8A%A4%EC%97%90-%EC%84%A4%EC%B9%98/)
 * 아파치 설정값 변경 오류시 : [링크](https://serverfault.com/questions/895581/apache-passenger-resolve-symlinks-stopped-working-invalid-command)
 * 데이터베이스 백업 스크립트 : [링크](https://kugancity.tistory.com/entry/mysql-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EB%B0%B1%EC%97%85-%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8)
+* mariaDB datadir 변경 : [링크](https://serverfault.com/questions/914164/how-to-change-datadir-for-mariadb)
