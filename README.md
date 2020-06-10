@@ -56,6 +56,34 @@ $ mysql -u root -p
 `sudo apt-get install -y apt-transport-https gnupg build-essential ruby-dev pkg-config zlib1g-dev libmagickwand-dev`  
 `sudo apt-get install -y redmine redmine-mysql`  
 
+### ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO).
+해당 오류 나올 시에 직접 데이터베이스 및 디비 계정 생성
+* 데이터베이스 생성 
+```
+$ mysql -u root -p
+> create database redmine_default;
+> create user 'redmine/instance'@'localhost' identified by '비밀번호';
+> grant all privileges on *.* to 'redmine/instance'@'localhost';
+> flush privileges;
+> exit
+```
+* 레드마인 데이터베이스 설정 변경
+```
+$ cd /usr/share/redmine/config
+$ sudo vi database.yml
+
+production:
+  adapter: mysql2
+  database: redmine_default
+  host: localhost
+  port: 3306
+  username: redmine/instance
+  password: 비밀번호 적으면 됨.
+  encoding: utf8
+
+:wq
+```
+
 ## passenger 설치
 기존 설치된 아파치 모듈 제거 : `sudo apt-get remove libapache2-mod-passenger`  
 bundler 설치 : `sudo gem install bundler`    
