@@ -38,6 +38,8 @@ $ mysql -u root -p
   - `sudo vi /etc/mysql/mariadb.conf.d/50-server.cnf`
   - [mysqld] 아래의 datadir= 부분을 /data/mysql 로 변경 후 :wq 로 저장
 * db 프로세스 시작 : `sudo systemctl start mariadb`
+* 디렉터리 소유자 변경 : `sudo chown -R mysql:mysql /data/mysql`
+
 * 데이터 디렉터리 위치 재확인:
 ```
 $ mysql -u root -p
