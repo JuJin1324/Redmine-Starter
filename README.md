@@ -146,7 +146,7 @@ passenger 설치 : `sudo gem install passenger`
 ```
 #!/bin/bash
 
-DB_BACKUP="/data/db_backup/"
+DB_BACKUP="/data/db_backup"
 DB_USER="redmine/instance"
 DB_PASSWD="비밀번호 입력"
 db="redmine_default"
