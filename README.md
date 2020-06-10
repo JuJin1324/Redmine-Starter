@@ -23,7 +23,7 @@
   ```
 ## 아파치(httpd) 설치
 설치 : `sudo apt-get install -y apache2`    
-구동 : `systemctl start apache2`    
+구동 : `sudo systemctl start apache2`    
 서비스 등록 : `sudo systemctl enable apache2`    
 
 ## Redmine 의존성 라이브러리 설치
