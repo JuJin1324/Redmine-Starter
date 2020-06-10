@@ -111,9 +111,9 @@ passenger 설치 : `sudo gem install passenger`
 기존의 내용을 다음의 내용으로 대체(예시): 
 ```
 <IfModule mod_passenger.c>
-PassengerRoot /var/lib/gems/2.7.0/gems/passenger-6.0.5
-PassengerDefaultRuby /usr/bin/ruby2.7
-PassengerDefaultUser www-data
+  PassengerRoot /var/lib/gems/2.7.0/gems/passenger-6.0.5
+  PassengerDefaultRuby /usr/bin/ruby2.7
+  PassengerDefaultUser www-data
 </IfModule>
 ```
 * <b>주의</b> : <IfModule mod_passenger.c> 안에 <b>PassengerDefaultUser www-data</b>를 넣어주어야 passenger가 권한 오류없이 redmine 페이지를 보여줄 수 있다. 그러므로 passenger 설정 시에 복사해둔 것에 <b>PassengerDefaultUser www-data</b>가 없었어도 넣어주어야한다.
