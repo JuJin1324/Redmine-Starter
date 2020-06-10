@@ -21,6 +21,32 @@
   sudo vi /etc/mysql/debian.cnf 
   user = root 아래 password = 에 패스워드 넣기(client 및 mysql_upgrade 두개 다)
   ```
+### mariaDB 데이터 저장 경로 변경하기(옵션)
+* rsync 설치(우분투에 경우 왠만하면 있음) : `sudo apt-get install -y rsync`
+* 데이터 디렉터리 위치 확인 : 
+```
+$ mysql -u root -p
+> select @@datadir;
+> exit;
+```
+* db 프로세스 종료 : `sudo systemctl stop mariadb`
+* 위에서 확인한 데이터 디렉터리를 신규 경로로 복사
+  - 예시) 기존 데이터 디렉터리 : /var/lib/mysql
+  - 신규 디렉터리 : /data
+  - `rsync -av /var/lib/mysql /data`
+* mariaDB 설정 변경
+  - `sudo vi /etc/mysql/mariadb.conf.d/50-server.cnf`
+  - [mysqld] 아래의 datadir= 부분을 /data/mysql 로 변경 후 :wq 로 저장
+* db 프로세스 시작 : `sudo systemctl start mariadb`
+* 데이터 디렉터리 위치 재확인:
+```
+$ mysql -u root -p
+> select @@datadir;
+> exit;
+```
+* 참조사이트
+  - [데이터 저장 디렉터리 복사하기](https://growingsaja.tistory.com/370)
+  - [데이터 저장 경로 변경하기](https://serverfault.com/questions/914164/how-to-change-datadir-for-mariadb)
 ## 아파치(httpd) 설치
 설치 : `sudo apt-get install -y apache2`    
 구동 : `sudo systemctl start apache2`    
