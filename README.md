@@ -57,15 +57,21 @@ $ mysql -u root -p
 `sudo apt-get install -y redmine redmine-mysql`  
 
 ### [에러 대처] ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO).
-해당 오류 나올 시에 직접 데이터베이스 및 디비 계정 생성
-* 데이터베이스 생성 
+해당 오류 나올 시에 debian.cnf 변경
 ```
-$ mysql -u root -p
-> create database redmine_default;
-> create user 'redmine/instance'@'localhost' identified by '비밀번호';
-> grant all privileges on *.* to 'redmine/instance'@'localhost';
-> flush privileges;
-> exit
+$ sudo vi /etc/mysql/debian.cnf
+
+# Automatically generated for Debian scripts. DO NOT TOUCH!
+[client]
+host     = localhost
+user     = root
+password = 비밀번호 적기.
+socket   = /var/run/mysqld/mysqld.sock
+[mysql_upgrade]
+host     = localhost
+user     = root
+password = 비밀번호 적기.
+socket   = /var/run/mysqld/mysqld.sock
 ```
 * 레드마인 데이터베이스 설정 변경
 ```
