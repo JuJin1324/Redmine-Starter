@@ -140,8 +140,41 @@ passenger 설치 : `sudo gem install passenger`
 ### apache2 로그 위치 
 `/var/log/apache2`
 
+## Database backup 하기
+### db_backup.sh
+* 생성 : `vi /data/db_backup.sh`
+```
+#!/bin/bash
+
+DB_BACKUP="/data/db_backup/"
+DB_USER="redmine/instance"
+DB_PASSWD="비밀번호 입력"
+db="redmine_default"
+# table="테이블 별로 백업할 경우 입력"
+
+# Remove backups older than 7 days
+find $DB_BACKUP -ctime +7 -exec rm -f {} \;
+
+# 데이터베이스를 모두 백업할경우 
+# mysqldump --user=$DB_USER --password=$DB_PASSWD -A | gzip > "$DB_BACKUP/mysqldump-$db-$(date +%Y-%m-%d).gz";
+
+# 데이터베이스를 백업할경우 
+mysqldump --user=$DB_USER --password=$DB_PASSWD $db | gzip > "$DB_BACKUP/mysqldump-$db-$(date +%Y-%m-%d).gz";
+
+# 데이터베이스의 특정 테이블을 백업할경우 
+# mysqldump --user=$DB_USER --password=$DB_PASSWD $db $table | gzip > "$DB_BACKUP/mysqldump-$db-$table-$(date +%Y-%m-%d).gz";
+``` 
+* 실행권한 부여 : `sudo chmod +x /data/db_backup.sh`
+* 테스트 : `./data/db_backup.sh`
+
+### cron 등록
+* 크론탭 열기 : `crontab -e`
+* 크론 등록 : 매일 새벽 3시에 해당 스크립트 자동 실행
+`00 03 * * * /data/db_backup.sh`
+
 ### 참조사이트
-* centOS에 레드마인 설치 : https://goddaehee.tistory.com/78
-* 우분투 아파치 설치 및 동작 : https://cornswrold.tistory.com/159
-* 우분투에 레드마인 설치 : https://techexpert.tips/ko/%EB%A0%88%EB%93%9C-%EB%A7%88%EC%9D%B8/%EB%A0%88%EB%93%9C-%EB%A7%88%EC%9D%B8-%EC%9A%B0%EB%B6%84%ED%88%AC-%EB%A6%AC%EB%88%85%EC%8A%A4%EC%97%90-%EC%84%A4%EC%B9%98/
-* 아파치 설정값 변경 오류시 : https://serverfault.com/questions/895581/apache-passenger-resolve-symlinks-stopped-working-invalid-command
+* centOS에 레드마인 설치 : [링크](https://goddaehee.tistory.com/78)
+* 우분투 아파치 설치 및 동작 : [링크](https://cornswrold.tistory.com/159)
+* 우분투에 레드마인 설치 : [링크](https://techexpert.tips/ko/%EB%A0%88%EB%93%9C-%EB%A7%88%EC%9D%B8/%EB%A0%88%EB%93%9C-%EB%A7%88%EC%9D%B8-%EC%9A%B0%EB%B6%84%ED%88%AC-%EB%A6%AC%EB%88%85%EC%8A%A4%EC%97%90-%EC%84%A4%EC%B9%98/)
+* 아파치 설정값 변경 오류시 : [링크](https://serverfault.com/questions/895581/apache-passenger-resolve-symlinks-stopped-working-invalid-command)
+* 데이터베이스 백업 스크립트 : [링크](https://kugancity.tistory.com/entry/mysql-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EB%B0%B1%EC%97%85-%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8)
