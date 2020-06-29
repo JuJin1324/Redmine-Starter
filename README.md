@@ -143,28 +143,69 @@ passenger 설치 : `sudo gem install passenger`
 `/var/log/apache2`
 
 ## Database backup 하기
-### db_backup.sh
-* 생성 : `vi /data/db_backup.sh`
+### db_backup.py
+* 생성 : `vi /data/db_backup.py`
 ```
-#!/bin/bash
+import datetime
+import os
 
-DB_BACKUP="/data/db_backup"
-DB_USER="redmine/instance"
-DB_PASSWD="비밀번호 입력"
-db="redmine_default"
-# table="테이블 별로 백업할 경우 입력"
 
-# Remove backups older than 7 days
-find $DB_BACKUP -ctime +7 -exec rm -f {} \;
+class DatabaseBackupInfo:
+    def __init__(self, directory, user, password, db_name, remain_days):
+        self.directory = directory
+        self.user = user
+        self.password = password
+        self.db_name = db_name
+        self.remain_days = remain_days
 
-# 데이터베이스를 모두 백업할경우 
-# mysqldump --user=$DB_USER --password=$DB_PASSWD -A | gzip > "$DB_BACKUP/$db-$(date +%Y-%m-%d).gz";
+    def remove_old_backup(self):
+        os.system("find %s -ctime +%s -exec rm -f {} \\;" % (self.directory, self.remain_days))
 
-# 데이터베이스를 백업할경우 
-mysqldump --user=$DB_USER --password=$DB_PASSWD $db | gzip > "$DB_BACKUP/$db-$(date +%Y-%m-%d).gz";
+    def make_backup(self):
+        now = datetime.datetime.now()
+        db_backup_filename = "{0}-{1}.sql.gz".format(self.db_name, now.strftime('%Y-%m-%d'))
 
-# 데이터베이스의 특정 테이블을 백업할경우 
-# mysqldump --user=$DB_USER --password=$DB_PASSWD $db $table | gzip > "$DB_BACKUP/$db-$table-$(date +%Y-%m-%d).gz";
+        # 데이터베이스를 백업할경우
+        os.system("mysqldump --user=\"{0}\" --password=\"{1}\" {2} | gzip > \"{3}/{4}\";"
+                  .format(self.user,
+                          self.password,
+                          self.db_name,
+                          self.directory,
+                          db_backup_filename))
+        return self.directory + "/" + db_backup_filename
+
+
+dbi = DatabaseBackupInfo("/data/db_backup",
+                         "type mysql redmine account name",
+                         "type mysql redmine account password",
+                         "type mysql redmine db name",
+                         7)
+dbi.remove_old_backup()
+backup_filepath = dbi.make_backup()
+print("Success for DB Backup to {}".format(backup_filepath))
+
+# db 로컬 백업을 다른 서버로 보내고 싶은 경우(필요 없으면 삭제해도 상관 없음)
+class BackupServerInfo:
+    def __init__(self, ip, account_id, private_key_path, backup_dest_dir):
+        self.ip = ip
+        self.account_id = account_id
+        self.private_key_path = private_key_path
+        self.backup_dest_dir = backup_dest_dir
+
+    def backup_dump(self, backup_file_path):
+        os.system("scp -l 50000 -i {0} {1} {2}@{3}:{4}"
+                  .format(self.private_key_path,
+                          backup_file_path,
+                          self.account_id,
+                          self.ip,
+                          self.backup_dest_dir))
+
+
+bsi = BackupServerInfo("type backup dest server ip",
+                       "type backup dest server account name",
+                       "type private key for dest server",
+                       "type backup dest server's dest dir path")
+bsi.backup_dump(backup_filepath)
 ``` 
 * 실행권한 부여 : `sudo chmod +x /data/db_backup.sh`
 * 테스트 : `./data/db_backup.sh`
