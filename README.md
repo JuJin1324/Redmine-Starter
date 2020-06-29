@@ -207,13 +207,20 @@ bsi = BackupServerInfo("type backup dest server ip",
                        "type backup dest server's dest dir path")
 bsi.backup_dump(backup_filepath)
 ``` 
-* 실행권한 부여 : `sudo chmod +x /data/db_backup.sh`
-* 테스트 : `./data/db_backup.sh`
+* 실행권한 부여 : `sudo chmod +x /data/db_backup.py`
+* 테스트 : `python3 /data/db_backup.py`
 
 ### cron 등록
 * 크론탭 열기 : `crontab -e`
 * 크론 등록 : 매일 새벽 3시에 해당 스크립트 자동 실행
-`00 03 * * * /data/db_backup.sh`
+``` bash
+SHELL = /bin/bash
+PATH = /sbin:/bin:/usr/sbin:/usr/bin
+HOME = /
+ 
+# m h  dom mon dow   command
+ 00 03 * * * /usr/bin/python3 /data/db_backup.py
+```
 
 ### 참조사이트
 * centOS에 레드마인 설치 : [링크](https://goddaehee.tistory.com/78)
